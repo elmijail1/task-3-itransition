@@ -1,3 +1,5 @@
+const determineWhoRollsFirst = require("./functions/determineWhoRollsFirst.js");
+
 if (process.argv.length < 5) {
   console.error(
     "You haven't specified enough dice. Please specify at least 3 dice."
@@ -14,32 +16,6 @@ const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
-
-// question 1
-function determineWhoRollsFirst() {
-  return new Promise((resolve, reject) => {
-    rl.question(
-      `Let's determine who rolls first.
-I selected a random value in the range from 0 to 1.
-(HMAC = ...)
-Guess my number:
-– Enter "0" for 0
-- Enter "1" for 1
-- Enter "x" to exit
-- Enter "?" for help
-`,
-      (answer) => {
-        if (["0", "1", "x", "?"].includes(answer)) {
-          resolve(answer);
-        } else {
-          reject(
-            "You've entered a non-existant option. Try again: choose among 0, 1, x, and ?."
-          );
-        }
-      }
-    );
-  });
-}
 
 // prog chooses a random die and it's removed from the dice
 function chooseARandomDie() {
@@ -105,9 +81,9 @@ async function main() {
   const randomNumberFrom0To1 = Math.round(Math.random());
   // initial HMAC calcualtion
 
-  // QUESTION 1 SECTION
+  // question 1
   try {
-    var response1 = await determineWhoRollsFirst();
+    var response1 = await determineWhoRollsFirst(rl);
   } catch (error) {
     console.error(error);
     process.exit();
