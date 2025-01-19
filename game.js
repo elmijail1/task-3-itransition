@@ -27,16 +27,15 @@ async function main() {
   const randomNumberFrom0To1 = Math.round(Math.random());
   // initial HMAC calcualtion
 
-  // question 1
+  // * * *
+  // QUESTION 1
   try {
     var response1 = await determineWhoRollsFirst(inputReader);
   } catch (error) {
     console.error(error);
     process.exit();
   }
-
   // key calculation
-
   //   who's first to roll calculation
   let firstRoller;
   console.log(response1, randomNumberFrom0To1);
@@ -59,18 +58,47 @@ My selection: ${randomNumberFrom0To1}
 Hence, first to roll is ${firstToRoll()}!
 `);
 
-  console.log(`I chose this die: ${chooseARandomDie().die}.
+  let dieProgs = chooseARandomDie().die;
+  console.log(`I chose this die: ${dieProgs}.
   `);
 
+  // * *
+  // * * *
   // QUESTION 2 SECTION
   try {
-    var response2 = await chooseADie(inputReader, dice); // the die you've chosen
-    console.log(`You chose this die: ${response2.die}`); // display the chosen die
-    dice = dice.filter((die) => die.initialIndex !== response2.initialIndex); // remove the die you've chosen from the dice array
+    var diePlayers = await chooseADie(inputReader, dice); // the die you've chosen
+    console.log(`You chose this die: ${diePlayers.die}`); // display the chosen die
+    dice = dice.filter((die) => die.initialIndex !== diePlayers.initialIndex); // remove the die you've chosen from the dice array
   } catch (error) {
     console.error(error);
     process.exit();
   }
+
+  // * *
+  // * * *
+  // QUESTION 3 SECTION
+  // dieProgs is rolled
+
+  // * *
+  // * * *
+  // QUESTION 4 SECTION
+  // diePlayers is rolled
+
+  // * *
+  // * * *
+  // VICTORY SECTION
+  // resultProgs & resultPlayers are compated and the winner is determined
+
+  // GET BACK TO:
+  // 1. BASIC LOGIC
+  // 1.1. firstRoller must determine who chooses first
+  // 1.2. firstRoller must determine who rolls first (i.e. Q3 & Q4 can change places)
+  // 1.3. Make the Exit option work in all CLI menus
+  // 1.4. Make the Help option work in all CLI menus (no table yet, a PH would do)
+  // 2. ADD CRAZY STUFF
+  // 2.1. HMACs & keys (use APIs)
+  // 2.2. The help table (use APIs)
+  // 2.3. If there's still some time left, see if you can add OOP to it all somehow
 
   inputReader.close();
 }
