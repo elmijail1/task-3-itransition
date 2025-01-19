@@ -1,4 +1,8 @@
+// General
+const { inputReader } = require("./utilities/inputReader.js");
+// For question 1
 const determineWhoRollsFirst = require("./functions/determineWhoRollsFirst.js");
+// For question 2
 const {
   populateOptions2,
   populateIndicesOptions2,
@@ -14,12 +18,12 @@ let dice = process.argv.slice(2).map((arg, index) => {
   return { die: arg, initialIndex: index };
 });
 
-const readline = require("readline");
+// const readline = require("readline");
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+// const rl = readline.createInterface({
+//   input: process.stdin,
+//   output: process.stdout,
+// });
 
 // prog chooses a random die and it's removed from the dice
 function chooseARandomDie() {
@@ -31,7 +35,7 @@ function chooseARandomDie() {
 // question 2
 function choooseADie() {
   return new Promise((resolve, reject) => {
-    rl.question(
+    inputReader.question(
       `I chose this die: ${chooseARandomDie().die}.
 Choose yours:
 ${populateOptions2(dice)}
@@ -67,7 +71,7 @@ async function main() {
 
   // question 1
   try {
-    var response1 = await determineWhoRollsFirst(rl);
+    var response1 = await determineWhoRollsFirst(inputReader);
   } catch (error) {
     console.error(error);
     process.exit();
@@ -107,7 +111,7 @@ Hence, first to roll is ${firstToRoll()}!
     process.exit();
   }
 
-  rl.close();
+  inputReader.close();
 }
 
 main();
