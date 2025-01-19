@@ -18,13 +18,6 @@ let dice = process.argv.slice(2).map((arg, index) => {
   return { die: arg, initialIndex: index };
 });
 
-// const readline = require("readline");
-
-// const rl = readline.createInterface({
-//   input: process.stdin,
-//   output: process.stdout,
-// });
-
 // prog chooses a random die and it's removed from the dice
 function chooseARandomDie() {
   const randomDie = dice[Math.floor(Math.random() * dice.length)];
@@ -36,8 +29,7 @@ function chooseARandomDie() {
 function choooseADie() {
   return new Promise((resolve, reject) => {
     inputReader.question(
-      `I chose this die: ${chooseARandomDie().die}.
-Choose yours:
+      `Now you choose your die:
 ${populateOptions2(dice)}
 x – exit
 ? – help
@@ -100,6 +92,9 @@ My selection: ${randomNumberFrom0To1}
 
 Hence, first to roll is ${firstToRoll()}!
 `);
+
+  console.log(`I chose this die: ${chooseARandomDie().die}.
+  `);
 
   // QUESTION 2 SECTION
   try {
