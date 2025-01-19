@@ -78,7 +78,7 @@ Choose yours:
 ${populateOptions2()}
 x – exit
 ? – help
-        `,
+`,
       (answer) => {
         if ([...indicesOptions2, "x", "?"].includes(answer)) {
           if ([...indicesOptions2].includes(answer)) {
