@@ -1,4 +1,8 @@
 const determineWhoRollsFirst = require("./functions/determineWhoRollsFirst.js");
+const {
+  populateOptions2,
+  populateIndicesOptions2,
+} = require("./functions/populateOptions2.js");
 
 if (process.argv.length < 5) {
   console.error(
@@ -24,38 +28,18 @@ function chooseARandomDie() {
   return randomDie;
 }
 
-// we're going to need that for verificaiton later
-const indicesOptions2 = [];
-
-// map options for question 2 (there can be more than 3 dice total)
-function populateOptions2() {
-  const lines = [];
-  for (let i = 0; i < dice.length; i++) {
-    lines.push(`${i} – ${dice[i].die}`);
-    indicesOptions2.push(String(i));
-  }
-  return lines
-    .map((line, index) => {
-      if (index === lines.length - 1) {
-        return line;
-      } else {
-        return line + "\n";
-      }
-    })
-    .join(""); // join is used to remove unncecessary auto commas here
-}
-
 // question 2
 function choooseADie() {
   return new Promise((resolve, reject) => {
     rl.question(
-      `I choose this die: ${chooseARandomDie()}.
+      `I chose this die: ${chooseARandomDie().die}.
 Choose yours:
-${populateOptions2()}
+${populateOptions2(dice)}
 x – exit
 ? – help
 `,
       (answer) => {
+        const indicesOptions2 = populateIndicesOptions2(dice);
         if ([...indicesOptions2, "x", "?"].includes(answer)) {
           if ([...indicesOptions2].includes(answer)) {
             resolve(dice[Number(answer)]);
