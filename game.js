@@ -7,6 +7,7 @@ const {
   populateOptions2,
   populateIndicesOptions2,
 } = require("./functions/populateOptions2.js");
+const { chooseADie } = require("./functions/chooseADie.js");
 
 if (process.argv.length < 5) {
   console.error(
@@ -23,37 +24,6 @@ function chooseARandomDie() {
   const randomDie = dice[Math.floor(Math.random() * dice.length)];
   dice = dice.filter((die) => die.initialIndex !== randomDie.initialIndex);
   return randomDie;
-}
-
-// question 2
-function choooseADie() {
-  return new Promise((resolve, reject) => {
-    inputReader.question(
-      `Now you choose your die:
-${populateOptions2(dice)}
-x – exit
-? – help
-`,
-      (answer) => {
-        const indicesOptions2 = populateIndicesOptions2(dice);
-        if ([...indicesOptions2, "x", "?"].includes(answer)) {
-          if ([...indicesOptions2].includes(answer)) {
-            resolve(dice[Number(answer)]);
-          } else if (answer === "x") {
-            process.exit();
-          } else if (answer === "?") {
-            console.log("Help is on the way!");
-          }
-        } else {
-          reject(
-            `You've entered a non-existant option. Try again: choose among ${indicesOptions2.join(
-              ", "
-            )}, x, and ?.`
-          );
-        }
-      }
-    );
-  });
 }
 
 // M A I N  F U N C T I O N
@@ -98,7 +68,12 @@ Hence, first to roll is ${firstToRoll()}!
 
   // QUESTION 2 SECTION
   try {
-    var response2 = await choooseADie(); // the die you've chosen
+    var response2 = await chooseADie(
+      inputReader,
+      dice,
+      populateOptions2,
+      populateIndicesOptions2
+    ); // the die you've chosen
     console.log(`You chose this die: ${response2.die}`); // display the chosen die
     dice = dice.filter((die) => die.initialIndex !== response2.initialIndex); // remove the die you've chosen from the dice array
   } catch (error) {
