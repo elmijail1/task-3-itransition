@@ -1,9 +1,9 @@
-exports.chooseADie = (
-  inputReader,
-  dice,
+const {
   populateOptions2,
-  populateIndicesOptions2
-) => {
+  populateIndicesOptions2,
+} = require("./populateOptions2");
+
+exports.chooseADie = (inputReader, dice) => {
   return new Promise((resolve, reject) => {
     inputReader.question(
       `Now you choose your die:
