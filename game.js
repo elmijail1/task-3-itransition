@@ -3,10 +3,6 @@ const { inputReader } = require("./utilities/inputReader.js");
 // For question 1
 const determineWhoRollsFirst = require("./functions/determineWhoRollsFirst.js");
 // For question 2
-const {
-  populateOptions2,
-  populateIndicesOptions2,
-} = require("./functions/populateOptions2.js");
 const { chooseADie } = require("./functions/chooseADie.js");
 
 if (process.argv.length < 5) {
@@ -68,12 +64,7 @@ Hence, first to roll is ${firstToRoll()}!
 
   // QUESTION 2 SECTION
   try {
-    var response2 = await chooseADie(
-      inputReader,
-      dice,
-      populateOptions2,
-      populateIndicesOptions2
-    ); // the die you've chosen
+    var response2 = await chooseADie(inputReader, dice); // the die you've chosen
     console.log(`You chose this die: ${response2.die}`); // display the chosen die
     dice = dice.filter((die) => die.initialIndex !== response2.initialIndex); // remove the die you've chosen from the dice array
   } catch (error) {
