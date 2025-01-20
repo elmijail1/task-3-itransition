@@ -9,19 +9,19 @@ exports.generateAProof = (inputReader, whoRolls) => {
   return new Promise((resolve, reject) => {
     inputReader.question(
       `It's time for ${rollerPronoun} to roll.
-  I selected a random value in the range from 0 to 5.
-  (HMAC = ...)
-  Add your number modulo 6:
-  – Enter "0" for 0
-  - Enter "1" for 1
-  - Enter "2" for 2
-  - Enter "3" for 3
-  - Enter "4" for 4
-  - Enter "5" for 5
-    - - -
-  - Enter "x" to exit
-  - Enter "?" for help
-  `,
+I selected a random value in the range from 0 to 5.
+(HMAC = ...)
+Add your number modulo 6:
+– Enter "0" for 0
+- Enter "1" for 1
+- Enter "2" for 2
+- Enter "3" for 3
+- Enter "4" for 4
+- Enter "5" for 5
+  - - -
+- Enter "x" to exit
+- Enter "?" for help
+`,
       (answer) => {
         if (["0", "1", "2", "3", "4", "5", "x", "?"].includes(answer)) {
           if (["0", "1", "2", "3", "4", "5"].includes(answer)) {
