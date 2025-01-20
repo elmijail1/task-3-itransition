@@ -4,6 +4,19 @@ const { inputReader } = require("./utilities/inputReader.js");
 const determineWhoRollsFirst = require("./functions/determineWhoRollsFirst.js");
 // For question 2
 const { chooseADie } = require("./functions/chooseADie.js");
+// For the final section
+const { determineWinner } = require("./functions/determineWinner.js");
+
+// GET BACK TO:
+// 1. BASIC LOGIC
+// 1.1. firstRoller must determine who chooses first
+// 1.2. firstRoller must determine who rolls first (i.e. Q3 & Q4 can change places)
+// 1.3. Make the Exit option work in all CLI menus
+// 1.4. Make the Help option work in all CLI menus (no table yet, a PH would do)
+// 2. ADD CRAZY STUFF
+// 2.1. HMACs & keys (use APIs)
+// 2.2. The help table (use APIs)
+// 2.3. If there's still some time left, see if you can add OOP to it all somehow
 
 if (process.argv.length < 5) {
   console.error(
@@ -70,6 +83,27 @@ function rollADie(die) {
   return die[Math.floor(Math.random() * die.length)];
 }
 
+// function determineWinner(firstRoller, firstRollResult, secondRollResult) {
+//   let playerResult;
+//   let progResult;
+
+//   if (firstRoller === "player") {
+//     playerResult = firstRollResult;
+//     progResult = secondRollResult;
+//   } else {
+//     playerResult = secondRollResult;
+//     progResult = firstRollResult;
+//   }
+
+//   if (playerResult > progResult) {
+//     return `You win (${playerResult} > ${progResult})`;
+//   } else if (playerResult < progResult) {
+//     return `I win (${progResult} > ${playerResult})`;
+//   } else {
+//     return `No one wins: (${playerResult} = ${progResult})`;
+//   }
+// }
+
 // * * * * *
 
 // M A I N  F U N C T I O N
@@ -91,7 +125,6 @@ async function main() {
   let firstRollerPronoun;
   let secondRoller;
   let secondRollerPronoun;
-  console.log(response1, randomNumberFrom0To1);
 
   function firstToRoll() {
     if (Number(response1) === randomNumberFrom0To1) {
@@ -133,8 +166,6 @@ Hence, first to roll is ${firstToRoll()}!
     console.error(error);
     process.exit();
   }
-
-  console.log(diePlayers, dieProgs);
 
   // * *
   // * * *
@@ -201,18 +232,7 @@ ${
   // * *
   // * * *
   // VICTORY SECTION
-  // resultProgs & resultPlayers are compated and the winner is determined
-
-  // GET BACK TO:
-  // 1. BASIC LOGIC
-  // 1.1. firstRoller must determine who chooses first
-  // 1.2. firstRoller must determine who rolls first (i.e. Q3 & Q4 can change places)
-  // 1.3. Make the Exit option work in all CLI menus
-  // 1.4. Make the Help option work in all CLI menus (no table yet, a PH would do)
-  // 2. ADD CRAZY STUFF
-  // 2.1. HMACs & keys (use APIs)
-  // 2.2. The help table (use APIs)
-  // 2.3. If there's still some time left, see if you can add OOP to it all somehow
+  determineWinner(firstRoller, firstRollResult, secondRollResult);
 
   inputReader.close();
 }
