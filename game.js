@@ -13,6 +13,7 @@ const { determineWinner } = require("./functions/determineWinner.js");
 const {
   calculateSecureRandom,
 } = require("./utilities/calculateSecureRandom.js");
+const { createTable } = require("./createTable.js");
 
 // GET BACK TO:
 // 1. ADD CRAZY STUFF
@@ -20,6 +21,7 @@ const {
 // 1.2. If there's still some time left, see if you can add OOP to it all somehow
 
 let dice = processInitInput(process.argv);
+let probTable = createTable(dice);
 
 // prog chooses a random die and it's removed from the dice
 function chooseARandomDie() {
@@ -39,7 +41,8 @@ async function main() {
   try {
     var playersGuess = await determineWhoRollsFirst(
       inputReader,
-      progsSecretNum
+      progsSecretNum,
+      probTable
     );
   } catch (error) {
     console.error(error);
