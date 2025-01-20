@@ -58,3 +58,16 @@ exports.processInitInput = (initInput) => {
 
   return dice;
 };
+
+{
+  /*
+  ## What does it do?
+  - Verifies the initial input passed with the command in the command line
+  - If the verification has been succesful, it returns an array of objects representing dice and the program continues its course.
+  - If not, an error message is displayed and the program exits.
+  ,
+  ## How is it used?
+  - **Where?** The very beginning
+  - **Returns?** An array of object: each object contains an array with a particular die's values (faces) and the initial index of each array to further filter this array after one of the players has picked one die (we can't let the other pick the same).
+  */
+}

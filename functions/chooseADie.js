@@ -32,3 +32,18 @@ x – exit
     );
   });
 };
+
+{
+  /*
+## What does it do?
+- Informs the user that it's necessary to choose a die
+- Shows available options
+- Registers the user's response
+- (if successful) Returns the die of the user's choice and saves it in the broader function
+- (alternatively) Responds respectively
+,
+## How is it used?
+- **Where?** Section 2
+- **Returns?** An object: it contains the die and its initial index.
+*/
+}
