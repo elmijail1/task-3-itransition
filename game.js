@@ -65,6 +65,11 @@ Add your number modulo 6:
   });
 }
 
+function rollADie(die) {
+  die = die.split(",");
+  return die[Math.floor(Math.random() * die.length)];
+}
+
 // * * * * *
 
 // M A I N  F U N C T I O N
@@ -112,8 +117,8 @@ My selection: ${randomNumberFrom0To1}
 Hence, first to roll is ${firstToRoll()}!
 `);
 
-  let dieProgs = chooseARandomDie().die;
-  console.log(`I chose this die: ${dieProgs}.
+  let dieProgs = chooseARandomDie();
+  console.log(`I chose this die: ${dieProgs.die}.
   `);
 
   // * *
@@ -129,15 +134,12 @@ Hence, first to roll is ${firstToRoll()}!
     process.exit();
   }
 
+  console.log(diePlayers, dieProgs);
+
   // * *
   // * * *
   // QUESTION 3 SECTION
   let progsRandomNumForKey = Math.floor(Math.random() * 6);
-
-  function rollADie(die) {
-    die = die.split(",");
-    return die[Math.floor(Math.random() * die.length)];
-  }
 
   if (firstRoller === "player") {
     var firstRollResult = rollADie(diePlayers.die);
@@ -165,12 +167,36 @@ ${
     process.exit();
   }
 
-  // dieProgs is rolled
-
   // * *
   // * * *
   // QUESTION 4 SECTION
-  // diePlayers is rolled
+  progsRandomNumForKey = Math.floor(Math.random() * 6);
+
+  if (secondRoller === "player") {
+    var secondRollResult = rollADie(diePlayers.die);
+  } else {
+    var secondRollResult = rollADie(dieProgs.die);
+  }
+
+  try {
+    var secondRollProof = await generateAProof(secondRoller); // player's part of the proof
+    console.log(`
+You chose this number: ${secondRollProof}
+I chose this number: ${progsRandomNumForKey}
+(KEY = ...)
+The result is ${secondRollProof} + ${progsRandomNumForKey} = ${
+      (Number(secondRollProof) + progsRandomNumForKey) % 6
+    }
+
+${
+  secondRollerPronoun[0].toUpperCase() + secondRollerPronoun.slice(1)
+} roll is ${secondRollResult}.
+
+`); // display the returned number
+  } catch (error) {
+    console.error(error);
+    process.exit();
+  }
 
   // * *
   // * * *
