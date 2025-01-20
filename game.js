@@ -83,7 +83,7 @@ Hence, first to choose a die and then roll is ${firstToRoll()}!
   // SECTION 2: CHOOSING DICE
   if (firstRoller === "player") {
     try {
-      var diePlayers = await chooseADie(inputReader, dice); // the die you've chosen
+      var diePlayers = await chooseADie(inputReader, dice, probTable); // the die you've chosen
       console.log(`You chose this die: ${diePlayers.die}
     `); // display the chosen die
       dice = dice.filter((die) => die.initialIndex !== diePlayers.initialIndex); // remove the die you've chosen from the dice array
@@ -99,7 +99,7 @@ Hence, first to choose a die and then roll is ${firstToRoll()}!
     console.log(`I chose this die: ${dieProgs.die}.
         `);
     try {
-      var diePlayers = await chooseADie(inputReader, dice); // the die you've chosen
+      var diePlayers = await chooseADie(inputReader, dice, probTable); // the die you've chosen
       console.log(`You chose this die: ${diePlayers.die}
                 `); // display the chosen die
       dice = dice.filter((die) => die.initialIndex !== diePlayers.initialIndex); // remove the die you've chosen from the dice array
