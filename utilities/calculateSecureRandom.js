@@ -5,7 +5,7 @@ exports.calculateSecureRandom = (numberOfOptions) => {
   const secureKey = secureRandom(32, { type: "Buffer" }).toString("hex");
   // console.log(`The key: ${secureKey}. Its length is ${secureKey.length}`);
 
-  const randomNumber = String(Math.floor(Math.random() * 6));
+  const randomNumber = String(Math.floor(Math.random() * numberOfOptions));
   // console.log(`The random number: ${randomNumber}`);
 
   const hmac = crypto
