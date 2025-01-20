@@ -1,9 +1,9 @@
-module.exports = function determineWhoRollsFirst(inputReader) {
+module.exports = function determineWhoRollsFirst(inputReader, progsSecretNum) {
   return new Promise((resolve, reject) => {
     inputReader.question(
       `Let's determine who rolls first.
 I selected a random value in the range from 0 to 1.
-(HMAC = ...)
+(HMAC = ${progsSecretNum.hmac})
 Guess my number:
 – Enter "0" for 0
 - Enter "1" for 1
