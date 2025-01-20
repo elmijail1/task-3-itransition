@@ -16,9 +16,8 @@ const {
 
 // GET BACK TO:
 // 1. ADD CRAZY STUFF
-// 1.1. HMACs & keys (use APIs)
-// 1.2. The help table (use APIs)
-// 1.3. If there's still some time left, see if you can add OOP to it all somehow
+// 1.1. The help table (use APIs)
+// 1.2. If there's still some time left, see if you can add OOP to it all somehow
 
 let dice = processInitInput(process.argv);
 
