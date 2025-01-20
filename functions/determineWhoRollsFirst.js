@@ -1,4 +1,8 @@
-module.exports = function determineWhoRollsFirst(inputReader, progsSecretNum) {
+module.exports = function determineWhoRollsFirst(
+  inputReader,
+  progsSecretNum,
+  probTable
+) {
   return new Promise((resolve, reject) => {
     inputReader.question(
       `Let's determine who rolls first.
@@ -17,11 +21,31 @@ Guess my number:
           } else if (answer === "x") {
             process.exit();
           } else if (answer === "?") {
-            console.log("Help is on the way1");
+            inputReader.question(
+              `${probTable}
+Guess my number:
+- Enter "0" for 0
+- Enter "1" for 1
+- Enter "x" to exit
+`,
+              (answer) => {
+                if (["0", "1", "x"].includes(answer)) {
+                  if (["0", "1"].includes(answer)) {
+                    resolve(answer);
+                  } else if (answer === "x") {
+                    process.exit();
+                  }
+                } else {
+                  reject(
+                    "You've entered a non-existant option. Next time choose among 0, 1, x, and ?."
+                  );
+                }
+              }
+            );
           }
         } else {
           reject(
-            "You've entered a non-existant option. Try again: choose among 0, 1, x, and ?."
+            "You've entered a non-existant option. Next time choose among 0, 1, x, and ?."
           );
         }
       }
