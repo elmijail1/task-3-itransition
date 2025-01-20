@@ -33,19 +33,20 @@ function chooseARandomDie() {
 
 // M A I N  F U N C T I O N
 async function main() {
-  const progsSecretNum = calculateSecureRandom(2);
-  // initial HMAC calcualtion
-
-  // * * *
   // SECTION 1: WHO MOVES FIRST
+
+  const progsSecretNum = calculateSecureRandom(2);
+
   try {
-    var playersGuess = await determineWhoRollsFirst(inputReader);
+    var playersGuess = await determineWhoRollsFirst(
+      inputReader,
+      progsSecretNum
+    );
   } catch (error) {
     console.error(error);
     process.exit();
   }
-  // key calculation
-  //   who's first to roll calculation
+
   let firstRoller;
   let firstRollerPronoun;
   let secondRoller;
@@ -70,7 +71,7 @@ async function main() {
   console.log(`
 Your selection: ${playersGuess}
 My selection: ${progsSecretNum.randomNumber}
-(KEY = ...)
+(KEY = ${progsSecretNum.secureKey})
 
 Hence, first to choose a die and then roll is ${firstToRoll()}!
 `);
