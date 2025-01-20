@@ -12,15 +12,10 @@ const { rollADie } = require("./functions/rollADie.js");
 const { determineWinner } = require("./functions/determineWinner.js");
 
 // GET BACK TO:
-// 1. BASIC LOGIC
-// 1.1. firstRoller must determine who chooses first
-// 1.2. firstRoller must determine who rolls first (i.e. Q3 & Q4 can change places)
-// 1.3. Make the Exit option work in all CLI menus
-// 1.4. Make the Help option work in all CLI menus (no table yet, a PH would do)
-// 2. ADD CRAZY STUFF
-// 2.1. HMACs & keys (use APIs)
-// 2.2. The help table (use APIs)
-// 2.3. If there's still some time left, see if you can add OOP to it all somehow
+// 1. ADD CRAZY STUFF
+// 1.1. HMACs & keys (use APIs)
+// 1.2. The help table (use APIs)
+// 1.3. If there's still some time left, see if you can add OOP to it all somehow
 
 let dice = processInitInput(process.argv);
 
@@ -90,11 +85,11 @@ Hence, first to roll is ${firstToRoll()}!
       console.error(error);
       process.exit();
     }
-    let dieProgs = chooseARandomDie();
+    var dieProgs = chooseARandomDie();
     console.log(`I chose this die: ${dieProgs.die}.
 `);
   } else {
-    let dieProgs = chooseARandomDie();
+    var dieProgs = chooseARandomDie();
     console.log(`I chose this die: ${dieProgs.die}.
         `);
     try {
