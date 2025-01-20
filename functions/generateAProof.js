@@ -40,3 +40,18 @@ exports.generateAProof = (inputReader, whoRolls) => {
     );
   });
 };
+
+{
+  /*
+    ## What does it do?
+  - Determines the current roller's pronoun (for the template literal)
+  - Instructs the player to choose a number to generate a key
+  - Verifies the response
+  - (If successful) Returns the player's response for further calculation
+  - (Alternatively) Responds otherwise
+    ,
+    ## How is it used?
+    - **Where?** Sections 3-4
+    - **Returns?** A number within the range from 0 to 5.
+    */
+}

@@ -20,3 +20,16 @@ exports.determineWinner = (firstRoller, firstRollResult, secondRollResult) => {
 
   return;
 };
+
+{
+  /*
+    ## What does it do?
+  - Compares the results of the player and the program
+  - Determines how the game's ended based on that
+  - Console.log's the message declaring that
+  ,
+    ## How is it used?
+    - **Where?** Sections 5
+    - **Returns?** Nothing.
+    */
+}
