@@ -10,6 +10,9 @@ const { generateAProof } = require("./functions/generateAProof.js");
 const { rollADie } = require("./functions/rollADie.js");
 // For the final section
 const { determineWinner } = require("./functions/determineWinner.js");
+const {
+  calculateSecureRandom,
+} = require("./utilities/calculateSecureRandom.js");
 
 // GET BACK TO:
 // 1. ADD CRAZY STUFF
@@ -30,7 +33,7 @@ function chooseARandomDie() {
 
 // M A I N  F U N C T I O N
 async function main() {
-  const randomNumberFrom0To1 = Math.round(Math.random());
+  const progsSecretNum = calculateSecureRandom(2);
   // initial HMAC calcualtion
 
   // * * *
@@ -49,7 +52,7 @@ async function main() {
   let secondRollerPronoun;
 
   function firstToRoll() {
-    if (Number(playersGuess) === randomNumberFrom0To1) {
+    if (playersGuess === progsSecretNum.randomNumber) {
       firstRoller = "player";
       firstRollerPronoun = "your";
       secondRoller = "program";
@@ -66,10 +69,10 @@ async function main() {
 
   console.log(`
 Your selection: ${playersGuess}
-My selection: ${randomNumberFrom0To1}
+My selection: ${progsSecretNum.randomNumber}
 (KEY = ...)
 
-Hence, first to roll is ${firstToRoll()}!
+Hence, first to choose a die and then roll is ${firstToRoll()}!
 `);
 
   // * *
