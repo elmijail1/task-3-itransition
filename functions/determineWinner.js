@@ -29,7 +29,7 @@ exports.determineWinner = (firstRoller, firstRollResult, secondRollResult) => {
   - Console.log's the message declaring that
   ,
     ## How is it used?
-    - **Where?** Sections 5
+    - **Where?** Final Results Section
     - **Returns?** Nothing.
     */
 }

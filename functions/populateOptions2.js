@@ -34,10 +34,10 @@ exports.populateIndicesOptions2 = (dice) => {
   ,
 ## How are they used?
 - 1. populateOptions2:
-    - **Where?** Question 2 (Which die do you want to roll?)
+    - **Where?** Section 2 (Which die do you want to roll?)
     - **Returns?** As many text lines as there are items in the dice array. Those lines go to the 2nd question's prompt.
 - 2. populateIndicesOptions2:
-    - **Where?** Question 2 (Which die do you want to roll?)
+    - **Where?** Section 2 (Which die do you want to roll?)
     - **Returns?** An array of indices. It's later used for verification of the user's input.
   */
 }
