@@ -27,9 +27,39 @@ if (process.argv.length < 5) {
   );
   return;
 }
+
+// dice verification
 let dice = process.argv.slice(2).map((arg, index) => {
-  return { die: arg, initialIndex: index };
+  let die = { die: arg.split(","), initialIndex: index };
+  console.log(die);
+  if (die.die.length !== 6) {
+    console.error(
+      "One of your dice has the number of faces other than 6. Please specify 6 faces (values) for each of your dice."
+    );
+    return;
+  }
+  for (let i = 0; i < die.length; i++) {
+    if (die[i].isNaN()) {
+      console.error(
+        "One of your dice has a value other than a number on one of its faces. Please specify 6 integers for each of your dice."
+      );
+      return;
+    } else if (die[i] < 0) {
+      console.error(
+        "One of your dice has a negative value on one of its faces. Please specify 6 positive integers for each of your dice."
+      );
+      return;
+    } else if (!Number.isInteger(die[i])) {
+      console.error(
+        "One of your dice has a non-integer value on one of its faces. Please specify 6 integers for each of your dice."
+      );
+      return;
+    }
+  }
+  return die;
 });
+
+console.log(dice);
 
 // prog chooses a random die and it's removed from the dice
 function chooseARandomDie() {
