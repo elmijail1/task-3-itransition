@@ -124,7 +124,8 @@ Hence, first to choose a die and then roll is ${firstToRoll()}!
     var firstRollProof = await generateAProof(
       inputReader,
       firstRoller,
-      progsRandomNumForKey.hmac
+      progsRandomNumForKey.hmac,
+      probTable
     );
     console.log(`
 You chose this number: ${firstRollProof}
@@ -159,7 +160,8 @@ ${
     var secondRollProof = await generateAProof(
       inputReader,
       secondRoller,
-      progsRandomNumForKey.hmac
+      progsRandomNumForKey.hmac,
+      probTable
     ); // player's part of the proof
     console.log(`
 You chose this number: ${secondRollProof}
