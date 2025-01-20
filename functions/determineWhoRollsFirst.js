@@ -12,7 +12,13 @@ Guess my number:
 `,
       (answer) => {
         if (["0", "1", "x", "?"].includes(answer)) {
-          resolve(answer);
+          if (["0", "1"].includes(answer)) {
+            resolve(answer);
+          } else if (answer === "x") {
+            process.exit();
+          } else if (answer === "?") {
+            console.log("Help is on the way1");
+          }
         } else {
           reject(
             "You've entered a non-existant option. Try again: choose among 0, 1, x, and ?."
