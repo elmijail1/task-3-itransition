@@ -4,6 +4,9 @@ const { inputReader } = require("./utilities/inputReader.js");
 const determineWhoRollsFirst = require("./functions/determineWhoRollsFirst.js");
 // For question 2
 const { chooseADie } = require("./functions/chooseADie.js");
+// For questions 3-4
+const { generateAProof } = require("./functions/generateAProof.js");
+const { rollADie } = require("./functions/rollADie.js");
 // For the final section
 const { determineWinner } = require("./functions/determineWinner.js");
 
@@ -34,75 +37,6 @@ function chooseARandomDie() {
   dice = dice.filter((die) => die.initialIndex !== randomDie.initialIndex);
   return randomDie;
 }
-
-function generateAProof(whoRolls) {
-  let rollerPronoun;
-  if (whoRolls === "player") {
-    rollerPronoun = "you";
-  } else {
-    rollerPronoun = "me";
-  }
-
-  return new Promise((resolve, reject) => {
-    inputReader.question(
-      `It's time for ${rollerPronoun} to roll.
-I selected a random value in the range from 0 to 5.
-(HMAC = ...)
-Add your number modulo 6:
-– Enter "0" for 0
-- Enter "1" for 1
-- Enter "2" for 2
-- Enter "3" for 3
-- Enter "4" for 4
-- Enter "5" for 5
-  - - -
-- Enter "x" to exit
-- Enter "?" for help
-`,
-      (answer) => {
-        if (["0", "1", "2", "3", "4", "5", "x", "?"].includes(answer)) {
-          if (["0", "1", "2", "3", "4", "5"].includes(answer)) {
-            resolve(answer);
-          } else if (answer === "?") {
-            console.log("Help is on the way!");
-          } else if (answer === "x") {
-            process.exit();
-          }
-        } else {
-          reject(
-            "You've entered a non-existant option. Try again: choose among 0, 1, 2, 3, 4, 5, x, and ?."
-          );
-        }
-      }
-    );
-  });
-}
-
-function rollADie(die) {
-  die = die.split(",");
-  return die[Math.floor(Math.random() * die.length)];
-}
-
-// function determineWinner(firstRoller, firstRollResult, secondRollResult) {
-//   let playerResult;
-//   let progResult;
-
-//   if (firstRoller === "player") {
-//     playerResult = firstRollResult;
-//     progResult = secondRollResult;
-//   } else {
-//     playerResult = secondRollResult;
-//     progResult = firstRollResult;
-//   }
-
-//   if (playerResult > progResult) {
-//     return `You win (${playerResult} > ${progResult})`;
-//   } else if (playerResult < progResult) {
-//     return `I win (${progResult} > ${playerResult})`;
-//   } else {
-//     return `No one wins: (${playerResult} = ${progResult})`;
-//   }
-// }
 
 // * * * * *
 
@@ -179,7 +113,7 @@ Hence, first to roll is ${firstToRoll()}!
   }
 
   try {
-    var firstRollProof = await generateAProof(firstRoller); // player's part of the proof
+    var firstRollProof = await generateAProof(inputReader, firstRoller); // player's part of the proof
     console.log(`
 You chose this number: ${firstRollProof}
 I chose this number: ${progsRandomNumForKey}
@@ -210,7 +144,7 @@ ${
   }
 
   try {
-    var secondRollProof = await generateAProof(secondRoller); // player's part of the proof
+    var secondRollProof = await generateAProof(inputReader, secondRoller); // player's part of the proof
     console.log(`
 You chose this number: ${secondRollProof}
 I chose this number: ${progsRandomNumForKey}
