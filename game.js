@@ -145,7 +145,7 @@ ${
   // * *
   // * * *
   // SECTION 4: THE SECOND ROLL
-  progsRandomNumForKey = Math.floor(Math.random() * 6);
+  progsRandomNumForKey = calculateSecureRandom(6);
 
   if (secondRoller === "player") {
     var secondRollResult = rollADie(diePlayers.die);
@@ -154,13 +154,17 @@ ${
   }
 
   try {
-    var secondRollProof = await generateAProof(inputReader, secondRoller); // player's part of the proof
+    var secondRollProof = await generateAProof(
+      inputReader,
+      secondRoller,
+      progsRandomNumForKey.hmac
+    ); // player's part of the proof
     console.log(`
 You chose this number: ${secondRollProof}
-I chose this number: ${progsRandomNumForKey}
-(KEY = ...)
-The result is ${secondRollProof} + ${progsRandomNumForKey} = ${
-      (Number(secondRollProof) + progsRandomNumForKey) % 6
+I chose this number: ${progsRandomNumForKey.randomNumber}
+(KEY = ${progsRandomNumForKey.secureKey})
+The result is ${secondRollProof} + ${progsRandomNumForKey.randomNumber} = ${
+      (Number(secondRollProof) + Number(progsRandomNumForKey.randomNumber)) % 6
     }
 
 ${
