@@ -39,7 +39,7 @@ async function main() {
   // initial HMAC calcualtion
 
   // * * *
-  // QUESTION 1
+  // SECTION 1: WHO MOVES FIRST
   try {
     var playersGuess = await determineWhoRollsFirst(inputReader);
   } catch (error) {
@@ -79,7 +79,7 @@ Hence, first to roll is ${firstToRoll()}!
 
   // * *
   // * * *
-  // QUESTION 2 SECTION
+  // SECTION 2: CHOOSING DICE
   if (firstRoller === "player") {
     try {
       var diePlayers = await chooseADie(inputReader, dice); // the die you've chosen
@@ -110,7 +110,7 @@ Hence, first to roll is ${firstToRoll()}!
 
   // * *
   // * * *
-  // QUESTION 3 SECTION
+  // SECTION 3: THE FIRST ROLL
   let progsRandomNumForKey = Math.floor(Math.random() * 6);
 
   if (firstRoller === "player") {
@@ -141,7 +141,7 @@ ${
 
   // * *
   // * * *
-  // QUESTION 4 SECTION
+  // SECTION 4: THE SECOND ROLL
   progsRandomNumForKey = Math.floor(Math.random() * 6);
 
   if (secondRoller === "player") {
@@ -172,7 +172,7 @@ ${
 
   // * *
   // * * *
-  // VICTORY SECTION
+  // FINAL RESULTS SECTION
   determineWinner(firstRoller, firstRollResult, secondRollResult);
 
   inputReader.close();
