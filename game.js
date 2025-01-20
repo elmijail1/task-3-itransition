@@ -41,7 +41,7 @@ async function main() {
   // * * *
   // QUESTION 1
   try {
-    var response1 = await determineWhoRollsFirst(inputReader);
+    var playersGuess = await determineWhoRollsFirst(inputReader);
   } catch (error) {
     console.error(error);
     process.exit();
@@ -54,7 +54,7 @@ async function main() {
   let secondRollerPronoun;
 
   function firstToRoll() {
-    if (Number(response1) === randomNumberFrom0To1) {
+    if (Number(playersGuess) === randomNumberFrom0To1) {
       firstRoller = "player";
       firstRollerPronoun = "your";
       secondRoller = "program";
@@ -70,28 +70,42 @@ async function main() {
   }
 
   console.log(`
-Your selection: ${response1}
+Your selection: ${playersGuess}
 My selection: ${randomNumberFrom0To1}
 (KEY = ...)
 
 Hence, first to roll is ${firstToRoll()}!
 `);
 
-  let dieProgs = chooseARandomDie();
-  console.log(`I chose this die: ${dieProgs.die}.
-  `);
-
   // * *
   // * * *
   // QUESTION 2 SECTION
-  try {
-    var diePlayers = await chooseADie(inputReader, dice); // the die you've chosen
-    console.log(`You chose this die: ${diePlayers.die}
-`); // display the chosen die
-    dice = dice.filter((die) => die.initialIndex !== diePlayers.initialIndex); // remove the die you've chosen from the dice array
-  } catch (error) {
-    console.error(error);
-    process.exit();
+  if (firstRoller === "player") {
+    try {
+      var diePlayers = await chooseADie(inputReader, dice); // the die you've chosen
+      console.log(`You chose this die: ${diePlayers.die}
+    `); // display the chosen die
+      dice = dice.filter((die) => die.initialIndex !== diePlayers.initialIndex); // remove the die you've chosen from the dice array
+    } catch (error) {
+      console.error(error);
+      process.exit();
+    }
+    let dieProgs = chooseARandomDie();
+    console.log(`I chose this die: ${dieProgs.die}.
+`);
+  } else {
+    let dieProgs = chooseARandomDie();
+    console.log(`I chose this die: ${dieProgs.die}.
+        `);
+    try {
+      var diePlayers = await chooseADie(inputReader, dice); // the die you've chosen
+      console.log(`You chose this die: ${diePlayers.die}
+                `); // display the chosen die
+      dice = dice.filter((die) => die.initialIndex !== diePlayers.initialIndex); // remove the die you've chosen from the dice array
+    } catch (error) {
+      console.error(error);
+      process.exit();
+    }
   }
 
   // * *
