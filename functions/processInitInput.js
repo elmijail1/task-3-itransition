@@ -1,4 +1,5 @@
 exports.processInitInput = (initInput) => {
+  // less than 3 dice?
   if (initInput.length < 5) {
     console.error(
       "You haven't specified enough dice. Please specify at least 3 dice."
@@ -10,10 +11,11 @@ exports.processInitInput = (initInput) => {
   let dice = initInput.slice(2).map((arg, index) => {
     let die = { die: arg.split(","), initialIndex: index };
 
+    // the number of faces is other than 6?
     if (die.die.length !== 6) {
       console.log(`Error at:
-                Dice: ${die.die}
-                `);
+  Dice: ${die.die}
+  `);
       console.error(
         "One of your dice has the number of faces other than 6. Please specify 6 faces (values) for each of your dice."
       );
@@ -21,32 +23,37 @@ exports.processInitInput = (initInput) => {
     }
 
     for (let i = 0; i < die.die.length; i++) {
-      if (isNaN(die.die[i])) {
+      // a non-number or a blank?
+      if (isNaN(die.die[i]) || die.die[i] === "") {
         console.log(`Error at:
-                        Dice: ${die.die}
-                        Face: ${die.die[i]}
-                        Index: ${i}
-                        `);
+  Dice: ${die.die}
+  Face: ${die.die[i]}
+  Index: ${i}
+  `);
         console.error(
           "One of your dice has a value other than a number on one of its faces. Please specify 6 integers for each of your dice."
         );
         process.exit();
+
+        // a negative number?
       } else if (die.die[i] < 0) {
         console.log(`Error at:
-      Dice: ${die.die}
-      Face: ${die.die[i]}
-      Index: ${i}
-      `);
+  Dice: ${die.die}
+  Face: ${die.die[i]}
+  Index: ${i}
+  `);
         console.error(
           "One of your dice has a negative value on one of its faces. Please specify 6 positive integers for each of your dice."
         );
         process.exit();
+
+        // a non-integer?
       } else if (!Number.isInteger(Number(die.die[i]))) {
         console.log(`Error at:
-            Dice: ${die.die}
-            Face: ${die.die[i]}
-            Index: ${i}
-            `);
+    Dice: ${die.die}
+    Face: ${die.die[i]}
+    Index: ${i}
+    `);
         console.error(
           "One of your dice has a non-integer value on one of its faces. Please specify 6 integers for each of your dice."
         );
