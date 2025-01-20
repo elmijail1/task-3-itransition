@@ -110,7 +110,7 @@ Hence, first to choose a die and then roll is ${firstToRoll()}!
   // * *
   // * * *
   // SECTION 3: THE FIRST ROLL
-  let progsRandomNumForKey = Math.floor(Math.random() * 6);
+  let progsRandomNumForKey = calculateSecureRandom(6);
 
   if (firstRoller === "player") {
     var firstRollResult = rollADie(diePlayers.die);
@@ -119,13 +119,17 @@ Hence, first to choose a die and then roll is ${firstToRoll()}!
   }
 
   try {
-    var firstRollProof = await generateAProof(inputReader, firstRoller); // player's part of the proof
+    var firstRollProof = await generateAProof(
+      inputReader,
+      firstRoller,
+      progsRandomNumForKey.hmac
+    );
     console.log(`
 You chose this number: ${firstRollProof}
-I chose this number: ${progsRandomNumForKey}
-(KEY = ...)
-The result is ${firstRollProof} + ${progsRandomNumForKey} = ${
-      (Number(firstRollProof) + progsRandomNumForKey) % 6
+I chose this number: ${progsRandomNumForKey.randomNumber}
+(KEY = ${progsRandomNumForKey.secureKey})
+The result is ${firstRollProof} + ${progsRandomNumForKey.randomNumber} = ${
+      (Number(firstRollProof) + Number(progsRandomNumForKey.randomNumber)) % 6
     }
 
 ${
