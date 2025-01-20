@@ -1,4 +1,4 @@
-exports.generateAProof = (inputReader, whoRolls) => {
+exports.generateAProof = (inputReader, whoRolls, hmac) => {
   let rollerPronoun;
   if (whoRolls === "player") {
     rollerPronoun = "you";
@@ -10,7 +10,7 @@ exports.generateAProof = (inputReader, whoRolls) => {
     inputReader.question(
       `It's time for ${rollerPronoun} to roll.
 I selected a random value in the range from 0 to 5.
-(HMAC = ...)
+(HMAC = ${hmac})
 Add your number modulo 6:
 – Enter "0" for 0
 - Enter "1" for 1
