@@ -1,6 +1,7 @@
 // General
 const { inputReader } = require("./utilities/inputReader.js");
 const { processInitInput } = require("./functions/processInitInput.js");
+const { removeChosenDie } = require("./utilities/removeChosenDie.js");
 // For question 1
 const determineWhoRollsFirst = require("./functions/determineWhoRollsFirst.js");
 // For question 2
@@ -10,27 +11,34 @@ const { generateAProof } = require("./functions/generateAProof.js");
 const { rollADie } = require("./functions/rollADie.js");
 // For the final section
 const { determineWinner } = require("./functions/determineWinner.js");
+// HMAC & key
 const {
   calculateSecureRandom,
 } = require("./utilities/calculateSecureRandom.js");
+// the help table
 const { createTable } = require("./createTable.js");
 
 let dice = processInitInput(process.argv);
 let probTable = createTable(dice);
 
+// function removeChosenDie(die) {
+//   dice = dice.filter((d) => d.initialIndex !== die.initialIndex);
+//   return dice;
+// }
+
 // prog chooses a random die and it's removed from the dice
 function chooseARandomDie() {
   const randomDie = dice[Math.floor(Math.random() * dice.length)];
-  dice = dice.filter((die) => die.initialIndex !== randomDie.initialIndex);
+  console.log(`I chose this die: ${randomDie.die}.
+`);
   return randomDie;
 }
 
 // * * * * *
 
-// M A I N  F U N C T I O N
+// The main function
 async function main() {
-  // SECTION 1: WHO MOVES FIRST
-
+  // Section 1: Who moves first?
   const progsSecretNum = calculateSecureRandom(2);
 
   try {
@@ -73,46 +81,36 @@ My selection: ${progsSecretNum.randomNumber}
 Hence, first to choose a die and then roll is ${firstToRoll()}!
 `);
 
-  // * *
-  // * * *
-  // SECTION 2: CHOOSING DICE
-  if (firstRoller === "player") {
+  async function doPlayerRoll() {
     try {
-      var diePlayers = await chooseADie(inputReader, dice, probTable); // the die you've chosen
-      console.log(`You chose this die: ${diePlayers.die}
-    `); // display the chosen die
-      dice = dice.filter((die) => die.initialIndex !== diePlayers.initialIndex); // remove the die you've chosen from the dice array
-    } catch (error) {
-      console.error(error);
-      process.exit();
-    }
-    var dieProgs = chooseARandomDie();
-    console.log(`I chose this die: ${dieProgs.die}.
-`);
-  } else {
-    var dieProgs = chooseARandomDie();
-    console.log(`I chose this die: ${dieProgs.die}.
-        `);
-    try {
-      var diePlayers = await chooseADie(inputReader, dice, probTable); // the die you've chosen
-      console.log(`You chose this die: ${diePlayers.die}
-                `); // display the chosen die
-      dice = dice.filter((die) => die.initialIndex !== diePlayers.initialIndex); // remove the die you've chosen from the dice array
+      var diePlayer = await chooseADie(inputReader, dice, probTable);
+      console.log(`You chose this die: ${diePlayer.die}
+      `);
+      return diePlayer;
     } catch (error) {
       console.error(error);
       process.exit();
     }
   }
 
-  // * *
-  // * * *
-  // SECTION 3: THE FIRST ROLL
+  // Section 2: Who rolls which die
+  if (firstRoller === "player") {
+    var diePlayer = await doPlayerRoll();
+    dice = removeChosenDie(dice, diePlayer);
+    var dieProg = chooseARandomDie();
+  } else if (firstRoller === "program") {
+    var dieProg = chooseARandomDie();
+    dice = removeChosenDie(dice, dieProg);
+    var diePlayer = await doPlayerRoll();
+  }
+
+  // Section 3: The first roll
   let progsRandomNumForKey = calculateSecureRandom(6);
 
   if (firstRoller === "player") {
-    var firstRollResult = rollADie(diePlayers.die);
-  } else {
-    var firstRollResult = rollADie(dieProgs.die);
+    var firstRollResult = rollADie(diePlayer.die);
+  } else if (firstRoller === "program") {
+    var firstRollResult = rollADie(dieProg.die);
   }
 
   try {
@@ -140,15 +138,13 @@ ${
     process.exit();
   }
 
-  // * *
-  // * * *
-  // SECTION 4: THE SECOND ROLL
+  // Section 4: The second rol
   progsRandomNumForKey = calculateSecureRandom(6);
 
   if (secondRoller === "player") {
-    var secondRollResult = rollADie(diePlayers.die);
+    var secondRollResult = rollADie(diePlayer.die);
   } else {
-    var secondRollResult = rollADie(dieProgs.die);
+    var secondRollResult = rollADie(dieProg.die);
   }
 
   try {
@@ -176,9 +172,7 @@ ${
     process.exit();
   }
 
-  // * *
-  // * * *
-  // FINAL RESULTS SECTION
+  // Final section
   determineWinner(firstRoller, firstRollResult, secondRollResult);
 
   inputReader.close();
