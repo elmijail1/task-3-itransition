@@ -1,11 +1,15 @@
-exports.determineWinner = (firstRoller, firstRollResult, secondRollResult) => {
+exports.determineWinner = (
+  firstRollerName,
+  firstRollResult,
+  secondRollResult
+) => {
   let playerResult;
   let progResult;
 
-  if (firstRoller === "player") {
+  if (firstRollerName === "player") {
     playerResult = firstRollResult;
     progResult = secondRollResult;
-  } else {
+  } else if (firstRollerName === "program") {
     playerResult = secondRollResult;
     progResult = firstRollResult;
   }
@@ -14,7 +18,7 @@ exports.determineWinner = (firstRoller, firstRollResult, secondRollResult) => {
     console.log(`You win (${playerResult} > ${progResult})`);
   } else if (playerResult < progResult) {
     console.log(`I win (${progResult} > ${playerResult})`);
-  } else {
+  } else if (playerResult === progResult) {
     console.log(`No one wins: (${playerResult} = ${progResult})`);
   }
 
