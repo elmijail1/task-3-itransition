@@ -44,20 +44,3 @@ exports.createTable = (dice) => {
 
   return table.toString();
 };
-{
-  /*
-abc
-rows = []
-
-1 i=0 probs=[]
-11 i=0 ii=0 probs=[] rows=[]
-    dice[i] is a
-    dice[ii] is a
-    probs.push(aa)
-12 i=0 ii=1 probs=[aa] rows=[]
-    dice[i] is a
-    dice[ii] is b
-    probs.push(ab)
-
-*/
-}
