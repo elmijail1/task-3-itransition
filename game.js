@@ -2,11 +2,11 @@
 const { inputReader } = require("./utilities/inputReader.js");
 const { processInitInput } = require("./functions/processInitInput.js");
 const { removeChosenDie } = require("./utilities/removeChosenDie.js");
-// For question 1
+// For section 1
 const determineWhoRollsFirst = require("./functions/determineWhoRollsFirst.js");
-// For question 2
+// For section 2
 const { chooseADie } = require("./functions/chooseADie.js");
-// For questions 3-4
+// For section 3
 const { generateAProof } = require("./functions/generateAProof.js");
 const { rollADie } = require("./functions/rollADie.js");
 // For the final section
@@ -53,22 +53,24 @@ async function main() {
   }
 
   let firstRoller;
-  let firstRollerPronoun;
+  // let firstRollerPronoun;
   let secondRoller;
-  let secondRollerPronoun;
+  // let secondRollerPronoun;
 
   function firstToRoll() {
     if (playersGuess === progsSecretNum.randomNumber) {
-      firstRoller = "player";
-      firstRollerPronoun = "your";
-      secondRoller = "program";
-      secondRollerPronoun = "my";
+      firstRoller = { name: "player", pronoun: "your" };
+      // firstRollerPronoun = "your";
+      secondRoller = { name: "program", pronoun: "my" };
+      // secondRollerPronoun = "my";
       return "you";
     } else {
-      firstRoller = "program";
-      firstRollerPronoun = "my";
-      secondRoller = "player";
-      secondRollerPronoun = "your";
+      firstRoller = { name: "program", pronoun: "my" };
+      secondRoller = { name: "player", pronoun: "your" };
+      // firstRoller = "program";
+      // firstRollerPronoun = "my";
+      // secondRoller = "player";
+      // secondRollerPronoun = "your";
       return "me";
     }
   }
@@ -83,10 +85,10 @@ Hence, first to choose a die and then roll is ${firstToRoll()}!
 
   async function doPlayerRoll() {
     try {
-      var diePlayer = await chooseADie(inputReader, dice, probTable);
-      console.log(`You chose this die: ${diePlayer.die}
+      var chosenDie = await chooseADie(inputReader, dice, probTable);
+      console.log(`You chose this die: ${chosenDie.die}
       `);
-      return diePlayer;
+      return chosenDie;
     } catch (error) {
       console.error(error);
       process.exit();
@@ -94,86 +96,59 @@ Hence, first to choose a die and then roll is ${firstToRoll()}!
   }
 
   // Section 2: Who rolls which die
-  if (firstRoller === "player") {
+  if (firstRoller.name === "player") {
     var diePlayer = await doPlayerRoll();
     dice = removeChosenDie(dice, diePlayer);
     var dieProg = chooseARandomDie();
-  } else if (firstRoller === "program") {
+  } else if (firstRoller.name === "program") {
     var dieProg = chooseARandomDie();
     dice = removeChosenDie(dice, dieProg);
     var diePlayer = await doPlayerRoll();
   }
 
-  // Section 3: The first roll
-  let progsRandomNumForKey = calculateSecureRandom(6);
+  // Section 3: Rolling
+  let progsRandomNumForKey;
 
-  if (firstRoller === "player") {
-    var firstRollResult = rollADie(diePlayer.die);
-  } else if (firstRoller === "program") {
-    var firstRollResult = rollADie(dieProg.die);
-  }
-
-  try {
-    var firstRollProof = await generateAProof(
-      inputReader,
-      firstRoller,
-      progsRandomNumForKey.hmac,
-      probTable
-    );
-    console.log(`
-You chose this number: ${firstRollProof}
-I chose this number: ${progsRandomNumForKey.randomNumber}
-(KEY = ${progsRandomNumForKey.secureKey})
-The result is ${firstRollProof} + ${progsRandomNumForKey.randomNumber} = ${
-      (Number(firstRollProof) + Number(progsRandomNumForKey.randomNumber)) % 6
+  async function doRoll(roller) {
+    progsRandomNumForKey = calculateSecureRandom(6);
+    if (roller.name === "player") {
+      var rollResult = rollADie(diePlayer.die);
+    } else if (roller.name === "program") {
+      var rollResult = rollADie(dieProg.die);
     }
 
-${
-  firstRollerPronoun[0].toUpperCase() + firstRollerPronoun.slice(1)
-} roll is ${firstRollResult}.
-
-`); // display the returned number
-  } catch (error) {
-    console.error(error);
-    process.exit();
-  }
-
-  // Section 4: The second rol
-  progsRandomNumForKey = calculateSecureRandom(6);
-
-  if (secondRoller === "player") {
-    var secondRollResult = rollADie(diePlayer.die);
-  } else {
-    var secondRollResult = rollADie(dieProg.die);
-  }
-
-  try {
-    var secondRollProof = await generateAProof(
-      inputReader,
-      secondRoller,
-      progsRandomNumForKey.hmac,
-      probTable
-    ); // player's part of the proof
-    console.log(`
-You chose this number: ${secondRollProof}
+    try {
+      var rollProof = await generateAProof(
+        inputReader,
+        firstRoller,
+        progsRandomNumForKey.hmac,
+        probTable
+      );
+      console.log(`
+You chose this number: ${rollProof}
 I chose this number: ${progsRandomNumForKey.randomNumber}
 (KEY = ${progsRandomNumForKey.secureKey})
-The result is ${secondRollProof} + ${progsRandomNumForKey.randomNumber} = ${
-      (Number(secondRollProof) + Number(progsRandomNumForKey.randomNumber)) % 6
-    }
+The result is ${rollProof} + ${progsRandomNumForKey.randomNumber} = ${
+        (Number(rollProof) + Number(progsRandomNumForKey.randomNumber)) % 6
+      }
 
 ${
-  secondRollerPronoun[0].toUpperCase() + secondRollerPronoun.slice(1)
-} roll is ${secondRollResult}.
+  roller.pronoun[0].toUpperCase() + roller.pronoun.slice(1)
+} roll is ${rollResult}.
 
-`); // display the returned number
-  } catch (error) {
-    console.error(error);
-    process.exit();
+`);
+    } catch (error) {
+      console.error(error);
+      process.exit();
+    }
+    return rollResult;
   }
+
+  const firstRollResult = await doRoll(firstRoller);
+  const secondRollResult = await doRoll(secondRoller);
 
   // Final section
-  determineWinner(firstRoller, firstRollResult, secondRollResult);
+  determineWinner(firstRoller.name, firstRollResult, secondRollResult);
 
   inputReader.close();
 }
